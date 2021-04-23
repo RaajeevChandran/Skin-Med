@@ -30,7 +30,9 @@ dependencies:
   cupertino_icons: ^1.0.2
   tflite:
   platform_action_sheet: ^0.0.3
+  lottie:
   image_picker:
+  google_fonts:
 
 dev_dependencies:
   flutter_test:
