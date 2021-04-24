@@ -18,6 +18,11 @@ TextEditingController controller = TextEditingController();
 
 class _ChatPageState extends State<ChatPage> {
   @override
+  void dispose() {
+    messages.clear();
+    super.dispose();
+  }
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: SafeArea(
@@ -117,7 +122,7 @@ class _ChatPageState extends State<ChatPage> {
                         ),
                         onPressed: () {
                           setState(() {
-                            controller.clear();
+                            
                             messages.add(controller.text);
                             if (controller.text == preMes[0]) {
                               messages.add(
@@ -126,6 +131,7 @@ class _ChatPageState extends State<ChatPage> {
                               messages.add(
                                   'We are located at Adhvaitha Ashram Road');
                             }
+                            controller.clear();
                           });
                         }),
                     decoration: BoxDecoration(
