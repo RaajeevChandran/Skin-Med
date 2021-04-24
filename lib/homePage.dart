@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:skinmed/detectDisease.dart';
 
 class HomeScreen extends StatelessWidget {
   final List<dynamic> trivia = [
@@ -82,16 +83,30 @@ class HomeScreen extends StatelessWidget {
                           ),
                           Padding(
                             padding: const EdgeInsets.only(top: 18.0),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width * .7,
-                              height: 40,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10),
-                                color: Color(0xFFF54c1fb),
-                              ),
-                              child: Center(
-                                child: Text("Know your skin disease",
-                                    style: TextStyle(color: Colors.white)),
+                            child: Material(
+                              borderRadius: BorderRadius.circular(10),
+                              clipBehavior: Clip.hardEdge,
+                              child: Ink(
+                                width: MediaQuery.of(context).size.width * .7,
+                                height: 40,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  color: Color(0xFFF54c1fb),
+                                ),
+                                child: InkWell(
+                                  onTap: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                DetectDisease()));
+                                  },
+                                  child: Center(
+                                    child: Text("Know your skin disease",
+                                        style: TextStyle(
+                                            color: Colors.white, fontSize: 17)),
+                                  ),
+                                ),
                               ),
                             ),
                           ),

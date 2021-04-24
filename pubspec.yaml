@@ -33,6 +33,7 @@ dependencies:
   lottie:
   image_picker:
   google_fonts:
+  flutter_svg:
 
 dev_dependencies:
   flutter_test:
