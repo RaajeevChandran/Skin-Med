@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:skinmed/detectDisease.dart';
+import 'package:skinmed/resultsPage.dart';
 
 class HomeScreen extends StatelessWidget {
   final List<dynamic> trivia = [
@@ -99,7 +100,7 @@ class HomeScreen extends StatelessWidget {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                DetectDisease()));
+                                                ResultsPage()));
                                   },
                                   child: Center(
                                     child: Text("Know your skin disease",

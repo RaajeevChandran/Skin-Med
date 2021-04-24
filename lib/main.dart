@@ -12,7 +12,7 @@ void main() {
 
   runApp(MaterialApp(
     theme:ThemeData(
-      fontFamily: GoogleFonts.philosopher().fontFamily
+      fontFamily: GoogleFonts.nunito().fontFamily
     ),
       builder: (context, child) {
         return ScrollConfiguration(

@@ -28,12 +28,17 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+  carousel_slider: ^3.0.0
   tflite:
   platform_action_sheet: ^0.0.3
   lottie:
   image_picker:
   google_fonts:
   flutter_svg:
+  google_place: ^0.4.0
+  geolocator: ^7.0.3
+  
+
 
 dev_dependencies:
   flutter_test:
