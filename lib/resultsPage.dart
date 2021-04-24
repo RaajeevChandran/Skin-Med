@@ -184,12 +184,12 @@ class _ResultsPageState extends State<ResultsPage> {
                                                                           mainAxisAlignment:
                                                                               MainAxisAlignment.center,
                                                                           children: [
-                                                                            Icon(Icons.phone),
+                                                                            Icon(Icons.phone,color: Colors.white,),
                                                                             Padding(
                                                                               padding: const EdgeInsets.all(8.0),
                                                                               child: Text(
                                                                                 "Call",
-                                                                                style: TextStyle(fontSize: 19),
+                                                                                style: TextStyle(fontSize: 19,color: Colors.white),
                                                                               ),
                                                                             ),
                                                                           ],
