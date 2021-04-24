@@ -49,15 +49,10 @@ class _ResultsPageState extends State<ResultsPage> {
   }
 
   var googlePlace = GooglePlace('AIzaSyBXvdv5ERqDG3Me5XkKsEldWfPP3prOvsE');
-  List<Uint8List> images = [];
+  Map<int, Uint8List> images = {};
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // appBar: AppBar(
-        //   title: Image.asset("assets/icon.png", fit: BoxFit.fitHeight),
-        //   centerTitle: true,
-        //   backgroundColor: Color(0xFFEFF0F4),
-        // ),
         backgroundColor: Color(0xFFFf2f6fe),
         body: SafeArea(
           child: Column(
@@ -73,7 +68,7 @@ class _ResultsPageState extends State<ResultsPage> {
                             return Center(
                                 child: Lottie.asset("assets/loading.json"));
                           case ConnectionState.done:
-                            return FutureBuilder(
+                            return FutureBuilder<NearBySearchResponse>(
                                 future: googlePlace.search.getNearBySearch(
                                     Location(
                                         lat: snapshot.data.latitude,
@@ -88,12 +83,18 @@ class _ResultsPageState extends State<ResultsPage> {
                                           child: Lottie.asset(
                                               "assets/loading.json"));
                                     case ConnectionState.done:
+                                      List<SearchResult> res;
+                                      try {
+                                        res = snap.data.results;
+                                        print(res.length);
+                                      } catch (e) {
+                                        print(e);
+                                      }
+                                      List<SearchResult> foo =
+                                          snap.data.results;
                                       return ListView.builder(
-                                          itemCount: 10,
+                                          itemCount: res.length,
                                           itemBuilder: (context, index) {
-                                            // getUint8List(snap.data.results[0]
-                                            //     .photos[0].photoReference);
-
                                             return Padding(
                                               padding: EdgeInsets.all(8.0),
                                               child: Material(
@@ -116,8 +117,19 @@ class _ResultsPageState extends State<ResultsPage> {
                                                         height: 220,
                                                         width: double.infinity,
                                                         color: Colors.blue,
-                                                        child: Image.asset(
-                                                            "assets/profile.png"),
+                                                        child: foo[index]
+                                                                    .photos !=
+                                                                null
+                                                            ? Container(
+                                                                width: double
+                                                                    .infinity,
+                                                                child:
+                                                                    buildHospitalImage(
+                                                                        foo,
+                                                                        index),
+                                                              )
+                                                            : Image.asset(
+                                                                "assets/icon.png"),
                                                       ),
                                                       Expanded(
                                                           child: Container(
@@ -268,110 +280,23 @@ class _ResultsPageState extends State<ResultsPage> {
             ],
           ),
         ));
-    // body: SingleChildScrollView(
-    //   child: Column(
-    //       children: List.generate(3, (int index) {
-    //     return Padding(
-    //       padding: EdgeInsets.all(8.0),
-    //       child: Container(
-    //         height: 320,
-    //         width: double.infinity,
-    //         decoration: BoxDecoration(
-    //           color: Colors.red,
-    //         ),
-    //         child: Column(
-    //           children: [
-    //             Container(
-    //               height: 220,
-    //               width: double.infinity,
-    //               color: Colors.blue,
-    //               child: Image.asset("assets/profile.png"),
-    //             ),
-    //             Expanded(
-    //                 child: Container(
-    //               width: double.infinity,
-    //               height: double.infinity,
-    //               color: Colors.amber,
-    //               child: Column(
-    //                 children: [
-    //                   Text("HOSPITAL NAME "),
-    //                   Text("Address"),
-    //                   Row(
-    //                     mainAxisAlignment: MainAxisAlignment.center,
-    //                     children: [
-    //                       Material(
-    //                           borderRadius: BorderRadius.circular(20),
-    //                           clipBehavior: Clip.hardEdge,
-    //                           child: Ink(
-    //                             decoration: BoxDecoration(
-    //                               color: Colors.greenAccent,
-    //                               borderRadius: BorderRadius.circular(20),
-    //                             ),
-    //                             width: 150,
-    //                             height: 44,
-    //                             child: InkWell(
-    //                               onTap: () {},
-    //                               child: Center(
-    //                                   child: Row(
-    //                                 mainAxisAlignment:
-    //                                     MainAxisAlignment.center,
-    //                                 children: [
-    //                                   Icon(Icons.phone),
-    //                                   Padding(
-    //                                     padding: const EdgeInsets.all(8.0),
-    //                                     child: Text(
-    //                                       "Call",
-    //                                       style: TextStyle(fontSize: 19),
-    //                                     ),
-    //                                   ),
-    //                                 ],
-    //                               )),
-    //                             ),
-    //                           )),
-    //                       Padding(
-    //                         padding: const EdgeInsets.all(8.0),
-    //                         child: Material(
-    //                             borderRadius: BorderRadius.circular(20),
-    //                             clipBehavior: Clip.hardEdge,
-    //                             child: Ink(
-    //                               decoration: BoxDecoration(
-    //                                 color: Colors.greenAccent,
-    //                                 borderRadius: BorderRadius.circular(20),
-    //                               ),
-    //                               width: 150,
-    //                               height: 44,
-    //                               child: InkWell(
-    //                                 onTap: () {},
-    //                                 child: Center(
-    //                                     child: Row(
-    //                                   mainAxisAlignment:
-    //                                       MainAxisAlignment.center,
-    //                                   children: [
-    //                                     Icon(Icons.message),
-    //                                     Padding(
-    //                                       padding:
-    //                                           const EdgeInsets.all(8.0),
-    //                                       child: Text(
-    //                                         "Chat",
-    //                                         style: TextStyle(fontSize: 19),
-    //                                       ),
-    //                                     ),
-    //                                   ],
-    //                                 )),
-    //                               ),
-    //                             )),
-    //                       )
-    //                     ],
-    //                   )
-    //                 ],
-    //               ),
-    //             ))
-    //           ],
-    //         ),
-    //       ),
-    //     );
-    //   })),
-    // ));
+  }
+
+  FutureBuilder<Uint8List> buildHospitalImage(
+      List<SearchResult> foo, int index) {
+    return FutureBuilder<Uint8List>(
+        future: googlePlace.photos
+            .get(foo[index].photos[0].photoReference, 400, 400),
+        builder: (context, snaps) {
+          switch (snaps.connectionState) {
+            case ConnectionState.waiting:
+              return Center(child: Lottie.asset("assets/loading.json"));
+            case ConnectionState.done:
+              return Image.memory(snaps.data, fit: BoxFit.fill);
+            default:
+              return Center(child: Lottie.asset("assets/loading.json"));
+          }
+        });
   }
 
   Container buildAppBar(BuildContext context) {
@@ -395,13 +320,8 @@ class _ResultsPageState extends State<ResultsPage> {
     );
   }
 
-  Future<void> getUint8List(String photoReference) async {
-    var result = await this.googlePlace.photos.get(photoReference, null, 400);
-    print(result);
-    if (result != null && mounted) {
-      setState(() {
-        images.add(result);
-      });
-    }
+  Future<Uint8List> getUint8List(int index, String photoReference) async {
+    var result = await this.googlePlace.photos.get(photoReference, 400, 400);
+    return result;
   }
 }
