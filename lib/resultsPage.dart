@@ -5,6 +5,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_place/google_place.dart';
 import 'package:lottie/lottie.dart';
 import 'package:skinmed/chatScreen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ResultsPage extends StatefulWidget {
   @override
@@ -139,6 +140,8 @@ class _ResultsPageState extends State<ResultsPage> {
                                                         // color: Color(0xFFF5347e9),
                                                         child: Column(
                                                           children: [
+                                                            SizedBox(
+                                                                height: 20),
                                                             Text(
                                                                 snap
                                                                     .data
@@ -195,18 +198,21 @@ class _ResultsPageState extends State<ResultsPage> {
                                                                       child:
                                                                           InkWell(
                                                                         onTap:
-                                                                            () {},
+                                                                            _launchUrl,
                                                                         child: Center(
                                                                             child: Row(
                                                                           mainAxisAlignment:
                                                                               MainAxisAlignment.center,
                                                                           children: [
-                                                                            Icon(Icons.phone,color: Colors.white,),
+                                                                            Icon(
+                                                                              Icons.phone,
+                                                                              color: Colors.white,
+                                                                            ),
                                                                             Padding(
                                                                               padding: const EdgeInsets.all(8.0),
                                                                               child: Text(
                                                                                 "Call",
-                                                                                style: TextStyle(fontSize: 19,color: Colors.white),
+                                                                                style: TextStyle(fontSize: 19, color: Colors.white),
                                                                               ),
                                                                             ),
                                                                           ],
@@ -239,7 +245,7 @@ class _ResultsPageState extends State<ResultsPage> {
                                                                           onTap:
                                                                               () {
                                                                             Navigator.push(context,
-                                                                                MaterialPageRoute(builder: (context) => ChatPage(hospitalName:snap.data.results[index].name)));
+                                                                                MaterialPageRoute(builder: (context) => ChatPage(hospitalName: snap.data.results[index].name)));
                                                                           },
                                                                           child: Center(
                                                                               child: Row(
@@ -287,6 +293,10 @@ class _ResultsPageState extends State<ResultsPage> {
           ),
         ));
   }
+
+  void _launchUrl() async => await canLaunch('tel:+91 427 231 4484')
+      ? await launch('tel:+91 427 231 4484')
+      : throw 'Could not launch';
 
   FutureBuilder<Uint8List> buildHospitalImage(
       List<SearchResult> foo, int index) {
