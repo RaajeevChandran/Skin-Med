@@ -59,139 +59,345 @@ class _ResultsPageState extends State<ResultsPage> {
         //   backgroundColor: Color(0xFFEFF0F4),
         // ),
         backgroundColor: Color(0xFFFf2f6fe),
-        body: Container(
-          child: FutureBuilder(
-              future: determinePosition(),
-              builder: (context, snapshot) {
-                switch (snapshot.connectionState) {
-                  case ConnectionState.waiting:
-                    return Center(child: Lottie.asset("assets/loading.json"));
-                  case ConnectionState.done:
-                    return FutureBuilder(
-                        future: googlePlace.search.getNearBySearch(
-                            Location(
-                                lat: snapshot.data.latitude,
-                                lng: snapshot.data.longitude),
-                            20000,
-                            type: "hospital",
-                            keyword: "skin"),
-                        builder: (context, snap) {
-                          switch (snap.connectionState) {
-                            case ConnectionState.waiting:
-                              return Center(
-                                  child: Lottie.asset("assets/loading.json"));
-                            case ConnectionState.done:
-                              return ListView.builder(
-                                  itemCount: 10,
-                                  itemBuilder: (context, index) {
-                                    //getUint8List(snapshot.data.results[index].photos[index].photoReference);
-                                    if (index < 3) {
-                                      return Padding(
-                                        padding: const EdgeInsets.only(
-                                          top: 8.0,
-                                        ),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              color: Color(0xFFfdba9d)),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Row(
-                                              children: [
-                                                Image.network(
-                                                    'https://image.shutterstock.com/image-vector/no-image-available-sign-absence-260nw-373244122.jpg',
-                                                    scale: 4),
-                                                SizedBox(
-                                                  width: 15,
-                                                ),
-                                                Expanded(
+        body: SafeArea(
+          child: Column(
+            children: [
+              buildAppBar(context),
+              Expanded(
+                child: Container(
+                  child: FutureBuilder(
+                      future: determinePosition(),
+                      builder: (context, snapshot) {
+                        switch (snapshot.connectionState) {
+                          case ConnectionState.waiting:
+                            return Center(
+                                child: Lottie.asset("assets/loading.json"));
+                          case ConnectionState.done:
+                            return FutureBuilder(
+                                future: googlePlace.search.getNearBySearch(
+                                    Location(
+                                        lat: snapshot.data.latitude,
+                                        lng: snapshot.data.longitude),
+                                    20000,
+                                    type: "hospital",
+                                    keyword: "skin"),
+                                builder: (context, snap) {
+                                  switch (snap.connectionState) {
+                                    case ConnectionState.waiting:
+                                      return Center(
+                                          child: Lottie.asset(
+                                              "assets/loading.json"));
+                                    case ConnectionState.done:
+                                      return ListView.builder(
+                                          itemCount: 10,
+                                          itemBuilder: (context, index) {
+                                            // getUint8List(snap.data.results[0]
+                                            //     .photos[0].photoReference);
+
+                                            return Padding(
+                                              padding: EdgeInsets.all(8.0),
+                                              child: Material(
+                                                elevation: 3,
+                                                borderRadius:
+                                                    BorderRadius.circular(20),
+                                                child: Container(
+                                                  height: 350,
+                                                  width: double.infinity,
+                                                  decoration: BoxDecoration(
+                                                    // color: Colors.red,
+                                                    borderRadius:
+                                                        BorderRadius.circular(
+                                                            20),
+                                                    //
+                                                  ),
                                                   child: Column(
                                                     children: [
-                                                      Text(
-                                                        snap.data.results[index]
-                                                            .name,
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
+                                                      Container(
+                                                        height: 220,
+                                                        width: double.infinity,
+                                                        color: Colors.blue,
+                                                        child: Image.asset(
+                                                            "assets/profile.png"),
                                                       ),
-                                                      Text(snap
-                                                          .data
-                                                          .results[index]
-                                                          .vicinity)
+                                                      Expanded(
+                                                          child: Container(
+                                                        width: double.infinity,
+                                                        height: double.infinity,
+                                                        // color: Color(0xFFF5347e9),
+                                                        child: Column(
+                                                          children: [
+                                                            Text(
+                                                                snap
+                                                                    .data
+                                                                    .results[
+                                                                        index]
+                                                                    .name,
+                                                                style: TextStyle(
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .bold,
+                                                                    fontSize:
+                                                                        17)),
+                                                            Expanded(
+                                                              child: Padding(
+                                                                padding:
+                                                                    const EdgeInsets
+                                                                            .all(
+                                                                        8.0),
+                                                                child: Text(
+                                                                    snap
+                                                                        .data
+                                                                        .results[
+                                                                            index]
+                                                                        .vicinity,
+                                                                    style: TextStyle(
+                                                                        fontWeight:
+                                                                            FontWeight.w300)),
+                                                              ),
+                                                            ),
+                                                            Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                Material(
+                                                                    borderRadius:
+                                                                        BorderRadius.circular(
+                                                                            20),
+                                                                    clipBehavior:
+                                                                        Clip.hardEdge,
+                                                                    child: Ink(
+                                                                      decoration:
+                                                                          BoxDecoration(
+                                                                        color: Colors
+                                                                            .greenAccent,
+                                                                        borderRadius:
+                                                                            BorderRadius.circular(20),
+                                                                      ),
+                                                                      width:
+                                                                          150,
+                                                                      height:
+                                                                          44,
+                                                                      child:
+                                                                          InkWell(
+                                                                        onTap:
+                                                                            () {},
+                                                                        child: Center(
+                                                                            child: Row(
+                                                                          mainAxisAlignment:
+                                                                              MainAxisAlignment.center,
+                                                                          children: [
+                                                                            Icon(Icons.phone),
+                                                                            Padding(
+                                                                              padding: const EdgeInsets.all(8.0),
+                                                                              child: Text(
+                                                                                "Call",
+                                                                                style: TextStyle(fontSize: 19),
+                                                                              ),
+                                                                            ),
+                                                                          ],
+                                                                        )),
+                                                                      ),
+                                                                    )),
+                                                                Padding(
+                                                                  padding:
+                                                                      const EdgeInsets
+                                                                              .all(
+                                                                          8.0),
+                                                                  child: Material(
+                                                                      borderRadius: BorderRadius.circular(20),
+                                                                      clipBehavior: Clip.hardEdge,
+                                                                      child: Ink(
+                                                                        decoration:
+                                                                            BoxDecoration(
+                                                                          color:
+                                                                              Colors.greenAccent,
+                                                                          borderRadius:
+                                                                              BorderRadius.circular(20),
+                                                                        ),
+                                                                        width:
+                                                                            150,
+                                                                        height:
+                                                                            44,
+                                                                        child:
+                                                                            InkWell(
+                                                                          onTap:
+                                                                              () {},
+                                                                          child: Center(
+                                                                              child: Row(
+                                                                            mainAxisAlignment:
+                                                                                MainAxisAlignment.center,
+                                                                            children: [
+                                                                              Icon(Icons.message),
+                                                                              Padding(
+                                                                                padding: const EdgeInsets.all(8.0),
+                                                                                child: Text(
+                                                                                  "Chat",
+                                                                                  style: TextStyle(fontSize: 19),
+                                                                                ),
+                                                                              ),
+                                                                            ],
+                                                                          )),
+                                                                        ),
+                                                                      )),
+                                                                )
+                                                              ],
+                                                            )
+                                                          ],
+                                                        ),
+                                                      ))
                                                     ],
                                                   ),
                                                 ),
-                                                SizedBox(width: 10),
-                                                Icon(Icons.phone)
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    } else {
-                                      return Padding(
-                                        padding: const EdgeInsets.only(
-                                          top: 8.0,
-                                        ),
-                                        child: Container(
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(20),
-                                              color: Colors.white),
-                                          child: Padding(
-                                            padding: const EdgeInsets.all(8.0),
-                                            child: Row(
-                                              children: [
-                                                Image.network(
-                                                    'https://image.shutterstock.com/image-vector/no-image-available-sign-absence-260nw-373244122.jpg',
-                                                    scale: 4),
-                                                SizedBox(
-                                                  width: 15,
-                                                ),
-                                                Expanded(
-                                                  child: Column(
-                                                    children: [
-                                                      Text(
-                                                        snap.data.results[index]
-                                                            .name,
-                                                        style: TextStyle(
-                                                            fontWeight:
-                                                                FontWeight
-                                                                    .bold),
-                                                      ),
-                                                      Text(snap
-                                                          .data
-                                                          .results[index]
-                                                          .vicinity)
-                                                    ],
-                                                  ),
-                                                ),
-                                                SizedBox(width: 10),
-                                                Icon(Icons.phone)
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      );
-                                    }
-                                  });
-                            default:
-                              return Center(
-                                  child: Lottie.asset("assets/loading.json"));
-                          }
-                        });
-                  default:
-                    return Center(child: Lottie.asset("assets/loading.json"));
-                }
-              }),
+                                              ),
+                                            );
+                                          });
+                                    default:
+                                      return Center(
+                                          child: Lottie.asset(
+                                              "assets/loading.json"));
+                                  }
+                                });
+                          default:
+                            return Center(
+                                child: Lottie.asset("assets/loading.json"));
+                        }
+                      }),
+                ),
+              ),
+            ],
+          ),
         ));
+    // body: SingleChildScrollView(
+    //   child: Column(
+    //       children: List.generate(3, (int index) {
+    //     return Padding(
+    //       padding: EdgeInsets.all(8.0),
+    //       child: Container(
+    //         height: 320,
+    //         width: double.infinity,
+    //         decoration: BoxDecoration(
+    //           color: Colors.red,
+    //         ),
+    //         child: Column(
+    //           children: [
+    //             Container(
+    //               height: 220,
+    //               width: double.infinity,
+    //               color: Colors.blue,
+    //               child: Image.asset("assets/profile.png"),
+    //             ),
+    //             Expanded(
+    //                 child: Container(
+    //               width: double.infinity,
+    //               height: double.infinity,
+    //               color: Colors.amber,
+    //               child: Column(
+    //                 children: [
+    //                   Text("HOSPITAL NAME "),
+    //                   Text("Address"),
+    //                   Row(
+    //                     mainAxisAlignment: MainAxisAlignment.center,
+    //                     children: [
+    //                       Material(
+    //                           borderRadius: BorderRadius.circular(20),
+    //                           clipBehavior: Clip.hardEdge,
+    //                           child: Ink(
+    //                             decoration: BoxDecoration(
+    //                               color: Colors.greenAccent,
+    //                               borderRadius: BorderRadius.circular(20),
+    //                             ),
+    //                             width: 150,
+    //                             height: 44,
+    //                             child: InkWell(
+    //                               onTap: () {},
+    //                               child: Center(
+    //                                   child: Row(
+    //                                 mainAxisAlignment:
+    //                                     MainAxisAlignment.center,
+    //                                 children: [
+    //                                   Icon(Icons.phone),
+    //                                   Padding(
+    //                                     padding: const EdgeInsets.all(8.0),
+    //                                     child: Text(
+    //                                       "Call",
+    //                                       style: TextStyle(fontSize: 19),
+    //                                     ),
+    //                                   ),
+    //                                 ],
+    //                               )),
+    //                             ),
+    //                           )),
+    //                       Padding(
+    //                         padding: const EdgeInsets.all(8.0),
+    //                         child: Material(
+    //                             borderRadius: BorderRadius.circular(20),
+    //                             clipBehavior: Clip.hardEdge,
+    //                             child: Ink(
+    //                               decoration: BoxDecoration(
+    //                                 color: Colors.greenAccent,
+    //                                 borderRadius: BorderRadius.circular(20),
+    //                               ),
+    //                               width: 150,
+    //                               height: 44,
+    //                               child: InkWell(
+    //                                 onTap: () {},
+    //                                 child: Center(
+    //                                     child: Row(
+    //                                   mainAxisAlignment:
+    //                                       MainAxisAlignment.center,
+    //                                   children: [
+    //                                     Icon(Icons.message),
+    //                                     Padding(
+    //                                       padding:
+    //                                           const EdgeInsets.all(8.0),
+    //                                       child: Text(
+    //                                         "Chat",
+    //                                         style: TextStyle(fontSize: 19),
+    //                                       ),
+    //                                     ),
+    //                                   ],
+    //                                 )),
+    //                               ),
+    //                             )),
+    //                       )
+    //                     ],
+    //                   )
+    //                 ],
+    //               ),
+    //             ))
+    //           ],
+    //         ),
+    //       ),
+    //     );
+    //   })),
+    // ));
+  }
+
+  Container buildAppBar(BuildContext context) {
+    return Container(
+      height: 60,
+      child: Stack(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: IconButton(
+              icon: Icon(Icons.arrow_back_ios),
+              onPressed: () => Navigator.pop(context),
+            ),
+          ),
+          Align(
+              alignment: Alignment.center,
+              child: Text("Your Location's Nearby Dermatologists",
+                  style: TextStyle(fontSize: 15)))
+        ],
+      ),
+    );
   }
 
   Future<void> getUint8List(String photoReference) async {
     var result = await this.googlePlace.photos.get(photoReference, null, 400);
-    // print(result);
+    print(result);
     if (result != null && mounted) {
       setState(() {
         images.add(result);
