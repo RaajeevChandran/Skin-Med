@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_place/google_place.dart';
+import 'package:lottie/lottie.dart';
 
 class ResultsPage extends StatefulWidget {
   @override
@@ -52,94 +53,149 @@ class _ResultsPageState extends State<ResultsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          title: Image.asset("assets/icon.png", fit: BoxFit.fitHeight),
-          centerTitle: true,
-          backgroundColor: Color(0xFFEFF0F4),
-        ),
+        // appBar: AppBar(
+        //   title: Image.asset("assets/icon.png", fit: BoxFit.fitHeight),
+        //   centerTitle: true,
+        //   backgroundColor: Color(0xFFEFF0F4),
+        // ),
         backgroundColor: Color(0xFFFf2f6fe),
         body: Container(
           child: FutureBuilder(
-            future: determinePosition(),
-            builder: (context, snapshot) {
-            return FutureBuilder(
-                future: googlePlace.search.getNearBySearch(
-                    Location(lat: snapshot.data.latitude, lng: snapshot.data.longitude),
-                    20000,
-                    type: "hospital",
-                    keyword: "skin"),
-                builder: (context, snapshot) {
-                  
-                  return ListView.builder(
-                      itemCount: 10,
-                      itemBuilder: (context, index) {
-                        //getUint8List(snapshot.data.results[index].photos[index].photoReference);
-                        if(index<3){
-                          return Padding(
-                          padding: const EdgeInsets.only(top:8.0,),
-                          child: Container(
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color:Color(0xFFfdba9d)),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: [
-                                  Image.network('https://image.shutterstock.com/image-vector/no-image-available-sign-absence-260nw-373244122.jpg',scale:4),
-                                  SizedBox(width: 15,),
-                                  Expanded(
-                                                                child: Column(
-                                      children: [
-                                        Text(snapshot.data.results[index].name,style: TextStyle(fontWeight: FontWeight.bold),),
-                                        Text(snapshot.data.results[index].vicinity)
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(width:10),
-                                  Icon(Icons.phone)
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                        } else{
-                          return Padding(
-                          padding: const EdgeInsets.only(top:8.0,),
-                          child: Container(
-                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(20),color:Colors.white),
-                            child: Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: Row(
-                                children: [
-                                  Image.network('https://image.shutterstock.com/image-vector/no-image-available-sign-absence-260nw-373244122.jpg',scale:4),
-                                  SizedBox(width: 15,),
-                                  Expanded(
-                                                                child: Column(
-                                      children: [
-                                        Text(snapshot.data.results[index].name,style: TextStyle(fontWeight: FontWeight.bold),),
-                                        Text(snapshot.data.results[index].vicinity)
-                                      ],
-                                    ),
-                                  ),
-                                  SizedBox(width:10),
-                                  Icon(Icons.phone)
-                                ],
-                              ),
-                            ),
-                          ),
-                        );
-                        }
-                      });
-                });
-          }),
+              future: determinePosition(),
+              builder: (context, snapshot) {
+                switch (snapshot.connectionState) {
+                  case ConnectionState.waiting:
+                    return Center(child: Lottie.asset("assets/loading.json"));
+                  case ConnectionState.done:
+                    return FutureBuilder(
+                        future: googlePlace.search.getNearBySearch(
+                            Location(
+                                lat: snapshot.data.latitude,
+                                lng: snapshot.data.longitude),
+                            20000,
+                            type: "hospital",
+                            keyword: "skin"),
+                        builder: (context, snap) {
+                          switch (snap.connectionState) {
+                            case ConnectionState.waiting:
+                              return Center(
+                                  child: Lottie.asset("assets/loading.json"));
+                            case ConnectionState.done:
+                              return ListView.builder(
+                                  itemCount: 10,
+                                  itemBuilder: (context, index) {
+                                    //getUint8List(snapshot.data.results[index].photos[index].photoReference);
+                                    if (index < 3) {
+                                      return Padding(
+                                        padding: const EdgeInsets.only(
+                                          top: 8.0,
+                                        ),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              color: Color(0xFFfdba9d)),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Row(
+                                              children: [
+                                                Image.network(
+                                                    'https://image.shutterstock.com/image-vector/no-image-available-sign-absence-260nw-373244122.jpg',
+                                                    scale: 4),
+                                                SizedBox(
+                                                  width: 15,
+                                                ),
+                                                Expanded(
+                                                  child: Column(
+                                                    children: [
+                                                      Text(
+                                                        snap.data.results[index]
+                                                            .name,
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                      Text(snap
+                                                          .data
+                                                          .results[index]
+                                                          .vicinity)
+                                                    ],
+                                                  ),
+                                                ),
+                                                SizedBox(width: 10),
+                                                Icon(Icons.phone)
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    } else {
+                                      return Padding(
+                                        padding: const EdgeInsets.only(
+                                          top: 8.0,
+                                        ),
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(20),
+                                              color: Colors.white),
+                                          child: Padding(
+                                            padding: const EdgeInsets.all(8.0),
+                                            child: Row(
+                                              children: [
+                                                Image.network(
+                                                    'https://image.shutterstock.com/image-vector/no-image-available-sign-absence-260nw-373244122.jpg',
+                                                    scale: 4),
+                                                SizedBox(
+                                                  width: 15,
+                                                ),
+                                                Expanded(
+                                                  child: Column(
+                                                    children: [
+                                                      Text(
+                                                        snap.data.results[index]
+                                                            .name,
+                                                        style: TextStyle(
+                                                            fontWeight:
+                                                                FontWeight
+                                                                    .bold),
+                                                      ),
+                                                      Text(snap
+                                                          .data
+                                                          .results[index]
+                                                          .vicinity)
+                                                    ],
+                                                  ),
+                                                ),
+                                                SizedBox(width: 10),
+                                                Icon(Icons.phone)
+                                              ],
+                                            ),
+                                          ),
+                                        ),
+                                      );
+                                    }
+                                  });
+                            default:
+                              return Center(
+                                  child: Lottie.asset("assets/loading.json"));
+                          }
+                        });
+                  default:
+                    return Center(child: Lottie.asset("assets/loading.json"));
+                }
+              }),
         ));
   }
-  Future<void> getUint8List(String photoReference)  async {
-    var result =  await this.googlePlace.photos.get(photoReference,null,400);
+
+  Future<void> getUint8List(String photoReference) async {
+    var result = await this.googlePlace.photos.get(photoReference, null, 400);
     // print(result);
-    if(result !=null && mounted){
+    if (result != null && mounted) {
       setState(() {
         images.add(result);
       });
     }
-
   }
 }

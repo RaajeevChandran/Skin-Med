@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:skinmed/detectDisease.dart';
-import 'package:skinmed/resultsPage.dart';
 
 class HomeScreen extends StatelessWidget {
   final List<dynamic> trivia = [
@@ -83,7 +82,7 @@ class HomeScreen extends StatelessWidget {
                                     fontWeight: FontWeight.w300)),
                           ),
                           Padding(
-                            padding: const EdgeInsets.only(top: 18.0),
+                            padding: const EdgeInsets.only(top: 8.0),
                             child: Material(
                               borderRadius: BorderRadius.circular(10),
                               clipBehavior: Clip.hardEdge,
@@ -100,7 +99,7 @@ class HomeScreen extends StatelessWidget {
                                         context,
                                         MaterialPageRoute(
                                             builder: (context) =>
-                                                ResultsPage()));
+                                                DetectDisease()));
                                   },
                                   child: Center(
                                     child: Text("Know your skin disease",
@@ -138,7 +137,7 @@ class HomeScreen extends StatelessWidget {
                           Column(
                               children: List.generate(trivia.length, (index) {
                             return Padding(
-                              padding: const EdgeInsets.all(8.0),
+                              padding: const EdgeInsets.all(4.0),
                               child: Material(
                                   elevation: 3,
                                   borderRadius: BorderRadius.circular(15),

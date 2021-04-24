@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:lottie/lottie.dart';
 import 'package:platform_action_sheet/platform_action_sheet.dart';
+import 'package:skinmed/resultsPage.dart';
 import 'package:tflite/tflite.dart';
 
 class DetectDisease extends StatefulWidget {
@@ -100,7 +101,6 @@ class _DetectDiseaseState extends State<DetectDisease> {
           child: Column(
             children: [
               buildAppBar(context),
-              SizedBox(height: 85,),
               buildImageWidget(),
               Expanded(
                 child: Container(
@@ -191,117 +191,111 @@ class _DetectDiseaseState extends State<DetectDisease> {
                 height: 44,
                 child: InkWell(
                   onTap: () {
-                    if (image != null) {
-                      classifyImage(image);
-                      return showDialog(
-                          context: context,
-                          builder: (context) {
-                            return AlertDialog(
-                              content: Container(
-                                height: 400,
-                                width: 400,
-                                child: FutureBuilder(
-                                  future: Future.delayed(Duration(seconds: 3)),
-                                  builder: (context, snapshot) {
-                                    switch (snapshot.connectionState) {
-                                      case ConnectionState.waiting:
-                                        return Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Lottie.asset("assets/loading.json"),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(12.0),
-                                              child: Text(
-                                                  "Detecting your disease..."),
-                                            )
-                                          ],
-                                        );
-                                      case ConnectionState.done:
-                                        return Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceEvenly,
-                                          children: [
-                                            Image.network(
-                                                "https://cdn.dribbble.com/users/4228/screenshots/12479926/media/399ef1ba8148a6a6c0062bb3a018c620.jpg?compress=1&resize=1000x750"),
-                                            RichText(
-                                              textAlign: TextAlign.center,
-                                              text:
-                                                  TextSpan(children: <TextSpan>[
-                                                TextSpan(
-                                                    text:
-                                                        "We think you may have been diagonsed with ",
-                                                    style: TextStyle(
-                                                      color: Colors.black87,
-                                                      fontSize: 17,
-                                                    )),
-                                                TextSpan(
-                                                    text: _outputs,
-                                                    style: TextStyle(
-                                                      color: Colors.red,
-                                                      fontSize: 20,
-                                                      fontWeight:
-                                                          FontWeight.bold,
-                                                    )),
-                                              ]),
-                                            ),
-                                            Material(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              clipBehavior: Clip.hardEdge,
-                                              child: Ink(
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width *
-                                                    .7,
-                                                height: 40,
-                                                decoration: BoxDecoration(
-                                                  borderRadius:
-                                                      BorderRadius.circular(10),
-                                                  color: Color(0xFFF54c1fb),
-                                                ),
-                                                child: InkWell(
-                                                  onTap: () {},
-                                                  child: Center(
-                                                    child: Text(
-                                                        "Seek Doctor's help",
-                                                        style: TextStyle(
-                                                            color: Colors.white,
-                                                            fontSize: 17)),
-                                                  ),
+                    classifyImage(image);
+                    return showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            content: Container(
+                              height: 400,
+                              width: 400,
+                              child: FutureBuilder(
+                                future: Future.delayed(Duration(seconds: 3)),
+                                builder: (context, snapshot) {
+                                  switch (snapshot.connectionState) {
+                                    case ConnectionState.waiting:
+                                      return Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Lottie.asset("assets/loading.json"),
+                                          Padding(
+                                            padding: const EdgeInsets.all(12.0),
+                                            child: Text(
+                                                "Detecting your disease..."),
+                                          )
+                                        ],
+                                      );
+                                    case ConnectionState.done:
+                                      return Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceEvenly,
+                                        children: [
+                                          Image.network(
+                                              "https://cdn.dribbble.com/users/4228/screenshots/12479926/media/399ef1ba8148a6a6c0062bb3a018c620.jpg?compress=1&resize=1000x750"),
+                                          RichText(
+                                            textAlign: TextAlign.center,
+                                            text: TextSpan(children: <TextSpan>[
+                                              TextSpan(
+                                                  text:
+                                                      "We think you may have been diagonsed with ",
+                                                  style: TextStyle(
+                                                    color: Colors.black87,
+                                                    fontSize: 17,
+                                                  )),
+                                              TextSpan(
+                                                  text: _outputs,
+                                                  style: TextStyle(
+                                                    color: Colors.red,
+                                                    fontSize: 20,
+                                                    fontWeight: FontWeight.bold,
+                                                  )),
+                                            ]),
+                                          ),
+                                          Material(
+                                            borderRadius:
+                                                BorderRadius.circular(10),
+                                            clipBehavior: Clip.hardEdge,
+                                            child: Ink(
+                                              width: MediaQuery.of(context)
+                                                      .size
+                                                      .width *
+                                                  .7,
+                                              height: 40,
+                                              decoration: BoxDecoration(
+                                                borderRadius:
+                                                    BorderRadius.circular(10),
+                                                color: Color(0xFFF54c1fb),
+                                              ),
+                                              child: InkWell(
+                                                onTap: () {
+                                                  Navigator.push(
+                                                      context,
+                                                      MaterialPageRoute(
+                                                          builder: (context) =>
+                                                              ResultsPage()));
+                                                },
+                                                child: Center(
+                                                  child: Text(
+                                                      "Seek Doctor's help",
+                                                      style: TextStyle(
+                                                          color: Colors.white,
+                                                          fontSize: 17)),
                                                 ),
                                               ),
-                                            )
-                                          ],
-                                        );
-                                      default:
-                                        return Column(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.center,
-                                          children: [
-                                            Lottie.asset("assets/loading.json"),
-                                            Padding(
-                                              padding:
-                                                  const EdgeInsets.all(12.0),
-                                              child: Text(
-                                                  "Detecting your disease..."),
-                                            )
-                                          ],
-                                        );
-                                    }
-                                  },
-                                ),
+                                            ),
+                                          )
+                                        ],
+                                      );
+                                    default:
+                                      return Column(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Lottie.asset("assets/loading.json"),
+                                          Padding(
+                                            padding: const EdgeInsets.all(12.0),
+                                            child: Text(
+                                                "Detecting your disease..."),
+                                          )
+                                        ],
+                                      );
+                                  }
+                                },
                               ),
-                            );
-                          });
-                    } else {
-                      ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                        behavior: SnackBarBehavior.floating,
-                        content: Text(
-                            "Select an image to know about your condition!"),
-                      ));
-                    }
+                            ),
+                          );
+                        });
                   },
                   child: Center(
                       child: Text(
