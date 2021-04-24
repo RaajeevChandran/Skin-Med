@@ -100,6 +100,7 @@ class _DetectDiseaseState extends State<DetectDisease> {
           child: Column(
             children: [
               buildAppBar(context),
+              SizedBox(height: 85,),
               buildImageWidget(),
               Expanded(
                 child: Container(
