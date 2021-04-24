@@ -37,6 +37,7 @@ dependencies:
   flutter_svg:
   google_place: ^0.4.0
   geolocator: ^7.0.3
+  bubble: ^1.2.1
   
 
 

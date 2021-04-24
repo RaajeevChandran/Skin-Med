@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_place/google_place.dart';
 import 'package:lottie/lottie.dart';
+import 'package:skinmed/chatScreen.dart';
 
 class ResultsPage extends StatefulWidget {
   @override
@@ -53,11 +54,6 @@ class _ResultsPageState extends State<ResultsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        // appBar: AppBar(
-        //   title: Image.asset("assets/icon.png", fit: BoxFit.fitHeight),
-        //   centerTitle: true,
-        //   backgroundColor: Color(0xFFEFF0F4),
-        // ),
         backgroundColor: Color(0xFFFf2f6fe),
         body: SafeArea(
           child: Column(
@@ -170,7 +166,8 @@ class _ResultsPageState extends State<ResultsPage> {
                                                                       decoration:
                                                                           BoxDecoration(
                                                                         color: Colors
-                                                                            .greenAccent,
+                                                                            .blue
+                                                                            .shade300,
                                                                         borderRadius:
                                                                             BorderRadius.circular(20),
                                                                       ),
@@ -210,8 +207,9 @@ class _ResultsPageState extends State<ResultsPage> {
                                                                       child: Ink(
                                                                         decoration:
                                                                             BoxDecoration(
-                                                                          color:
-                                                                              Colors.greenAccent,
+                                                                          color: Colors
+                                                                              .amber
+                                                                              .shade100,
                                                                           borderRadius:
                                                                               BorderRadius.circular(20),
                                                                         ),
@@ -222,7 +220,10 @@ class _ResultsPageState extends State<ResultsPage> {
                                                                         child:
                                                                             InkWell(
                                                                           onTap:
-                                                                              () {},
+                                                                              () {
+                                                                            Navigator.push(context,
+                                                                                MaterialPageRoute(builder: (context) => ChatPage(hospitalName:snap.data.results[index].name)));
+                                                                          },
                                                                           child: Center(
                                                                               child: Row(
                                                                             mainAxisAlignment:
