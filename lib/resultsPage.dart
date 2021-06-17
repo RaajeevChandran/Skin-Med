@@ -155,21 +155,16 @@ class _ResultsPageState extends State<ResultsPage> {
                                                                     fontSize:
                                                                         17)),
                                                             Expanded(
-                                                              child: Padding(
-                                                                padding:
-                                                                    const EdgeInsets
-                                                                            .all(
-                                                                        8.0),
-                                                                child: Text(
-                                                                    snap
-                                                                        .data
-                                                                        .results[
-                                                                            index]
-                                                                        .vicinity,
-                                                                    style: TextStyle(
-                                                                        fontWeight:
-                                                                            FontWeight.w300)),
-                                                              ),
+                                                              child: Text(
+                                                                  snap
+                                                                      .data
+                                                                      .results[
+                                                                          index]
+                                                                      .vicinity,
+                                                                  style: TextStyle(
+                                                                      fontWeight:
+                                                                          FontWeight
+                                                                              .w300)),
                                                             ),
                                                             Row(
                                                               mainAxisAlignment:

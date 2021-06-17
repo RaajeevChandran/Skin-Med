@@ -77,6 +77,7 @@ class _DetectDiseaseState extends State<DetectDisease> {
     );
     setState(() {
       _loading = false;
+      print(output);
       _outputs = output[0]["label"].toString().substring(17);
       print("prediciton is " + output[0]["label"].toString().substring(17));
     });
